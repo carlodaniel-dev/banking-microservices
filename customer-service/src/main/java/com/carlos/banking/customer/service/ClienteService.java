@@ -6,8 +6,9 @@ import com.carlos.banking.customer.entity.Cliente;
 import com.carlos.banking.customer.mapper.ClienteMapper;
 import com.carlos.banking.customer.repository.ClienteRepository;
 import com.carlos.banking.customer.exception.ClienteNotFoundException;
-import org.springframework.stereotype.Service;
+import com.carlos.banking.customer.exception.ClienteAlreadyExistsException;
 
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -42,6 +43,19 @@ public class ClienteService {
     }
 
     public ClienteResponse crearCliente(ClienteRequest request) {
+
+        if (clienteRepository.existsByClienteId(request.clienteId())) {
+            throw new ClienteAlreadyExistsException(
+                    "El clienteId ya existe"
+            );
+        }
+
+        if (clienteRepository.existsByIdentificacion(request.identificacion())) {
+            throw new ClienteAlreadyExistsException(
+                    "La identificación ya existe"
+            );
+        }
+
         Cliente cliente = clienteMapper.toEntity(request);
 
         Cliente clienteGuardado = clienteRepository.save(cliente);
