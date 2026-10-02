@@ -99,4 +99,34 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.BAD_REQUEST)
                 .body(error);
     }
+
+    @ExceptionHandler(FechaReporteInvalidaException.class)
+    public ResponseEntity<ErrorResponse> manejarFechaReporteInvalida(
+            FechaReporteInvalidaException exception
+    ) {
+        ErrorResponse error = new ErrorResponse(
+                LocalDateTime.now(),
+                HttpStatus.BAD_REQUEST.value(),
+                exception.getMessage()
+        );
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(error);
+    }
+
+    @ExceptionHandler(ClienteSinCuentasException.class)
+    public ResponseEntity<ErrorResponse> manejarClienteSinCuentas(
+            ClienteSinCuentasException exception
+    ) {
+        ErrorResponse error = new ErrorResponse(
+                LocalDateTime.now(),
+                HttpStatus.NOT_FOUND.value(),
+                exception.getMessage()
+        );
+
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(error);
+    }
 }
