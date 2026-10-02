@@ -69,4 +69,34 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.BAD_REQUEST)
                 .body(response);
     }
+
+    @ExceptionHandler(SaldoNoDisponibleException.class)
+    public ResponseEntity<ErrorResponse> handleSaldoNoDisponible(
+            SaldoNoDisponibleException exception
+    ) {
+        ErrorResponse error = new ErrorResponse(
+                LocalDateTime.now(),
+                HttpStatus.BAD_REQUEST.value(),
+                exception.getMessage()
+        );
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(error);
+    }
+
+    @ExceptionHandler(TipoMovimientoInvalidoException.class)
+    public ResponseEntity<ErrorResponse> handleTipoMovimientoInvalido(
+            TipoMovimientoInvalidoException exception
+    ) {
+        ErrorResponse error = new ErrorResponse(
+                LocalDateTime.now(),
+                HttpStatus.BAD_REQUEST.value(),
+                exception.getMessage()
+        );
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(error);
+    }
 }
