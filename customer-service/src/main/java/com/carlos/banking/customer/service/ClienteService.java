@@ -72,6 +72,15 @@ public class ClienteService {
                         "Cliente no encontrado"
                 ));
 
+        if (clienteRepository.existsByIdentificacionAndClienteIdNot(
+                request.identificacion(),
+                clienteId
+        )) {
+            throw new ClienteAlreadyExistsException(
+                    "La identificación ya existe"
+            );
+        }
+
         cliente.setNombre(request.nombre());
         cliente.setGenero(request.genero());
         cliente.setEdad(request.edad());
